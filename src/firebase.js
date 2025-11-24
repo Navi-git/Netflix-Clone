@@ -21,6 +21,7 @@ const db = getFirestore(app);
 const signup = async (name, email, password)=>{
     try {
         const response = await createUserWithEmailAndPassword(auth,email,password);
+        toast.success('Successfully Signed Up');
         const user = response.user;
         await addDoc(collection(db, "users"), {
             uid:user.uid,
@@ -38,15 +39,24 @@ const signup = async (name, email, password)=>{
 const login = async (email, password)=>{
     try {
         await signInWithEmailAndPassword(auth, email, password);
+        toast.success('Logged In.');
 
     } catch (error) {
         console.log(error);
         toast.error(error.code.split('/')[1].split('-').join(" "));
     }
-}
+};
 
-const logout = () =>{
-    signOut(auth);
-}
+const logout = async () =>{
+
+    try {
+        await signOut(auth);
+        toast.success('Logged out successfully');
+    } catch (error) {
+        console.log(error);
+        toast.error('Error logging out');
+    }
+
+};
 
 export {auth, db, login, signup, logout};

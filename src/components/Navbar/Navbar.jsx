@@ -6,10 +6,18 @@ import search_icon from '../../assets/search_icon.svg'
 import profile_img from '../../assets/profile_img.png'
 import caret_icon from '../../assets/caret_icon.svg'
 import { logout } from '../../firebase';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
 
     const navRef = useRef();
+
+    const navigate = useNavigate();
+
+    const handleLogout = async () =>{
+        await logout();
+        navigate('/login');
+    }
 
     useEffect(()=>{
         window.addEventListener('scroll', ()=>{
@@ -42,7 +50,7 @@ const Navbar = () => {
                     <img src={profile_img} alt='profile-icon' className='profile'/>
                     <img src={caret_icon} alt='caret_icon'/>
                     <div className="dropdown">
-                        <p onClick={()=>{logout()}} >Sign Out of Netflix</p>
+                        <p onClick={handleLogout} >Sign Out of Netflix</p>
                     </div>
                 </div>
             </div>
